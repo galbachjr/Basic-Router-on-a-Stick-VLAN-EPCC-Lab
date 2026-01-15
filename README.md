@@ -1,125 +1,115 @@
 <h1>"Basic Router-on-a-Stick VLAN EPCC Lab</h1>
 
 <h2>Description</h2>
-My first HackTheBox Sherlock lab write-up, investigating an SSH brute-force attack by analyzing Linux authentication logs using Ubuntu (WSL).
+This project is a simulated college campus network (EPCC) I built in Cisco Packet Tracer. This design helped me practice and strengthen my foundational networking skills. This lab represents two buildings within the same campus, each containing multiple VLANs to separate different types of users/departments.
 <br />
 
 
-<h2>Prerequisites</h2>
+<h2>Tools & Technologies Used</h2>
 
-- <b>HackTheBox Lab</b> 
-- <b>Linux Terminal / Windows WSL Linux Ubuntu Terminal</b>
-- <b>Brutus Folder</b>
-- <b>7zip</b>
+- <b>Cisco Packet Tracer</b> 
+- <b>Router-on-a-Stick</b>
+- <b>VLANs & Trunking</b> 
+- <b>DHCP</b>
 
 <h2>Objectives</h2>
 
-- <b>Analyze Linux authentication artifacts (auth.log and wtmp) to identify evidence of an SSH brute-force attack.</b>
-- <b>Trace attacker activity post-compromise, including successful logins, privilege escalation, and persistence indicators.</b>
-- <b>Practice basic incident investigation using Linux command-line tools within an Ubuntu (WSL) environment.</b>
+- <b>Design a campus-style network based on a real-world college environment similar to EPCC.</b>
+- <b>Practice VLANs and inter-VLAN routing by configuring my first router-on-a-stick design.</b>
+- <b>Improve hands-on Cisco Packet Tracer and CLI skills, including implementing DHCP.</b>
 
-<h2>Step 1: Setting Up The "Brutus" Lab</h2>
+<h2>Step 1: Design the General "Network/Logical" Plan</h2>
 
 <p align="center">
-1) Downloading The Brutus.zip File Onto Desktop & Utilizing 7zip to Extract to "Brutus\". <br/>
-<img src="https://i.imgur.com/B8Nc55l.png" height="80%" width="80%" alt="#1"/>
+1) Creating The VLAN Plan, IP Addressing Plan, Physical Topology, and Connections. <br/>
+<img src="https://i.imgur.com/F0cxVKW.png" height="80%" width="80%" alt="#1"/>
+<br/> - I am planning on creating a Inter-VLAN network design using my campus, EPCC, with using only 2 of the many buildings within the Valle Verde Campus, AST and the Enrollment Services Center.<br/>
 <br />
-<br />
-2) Entering the password given for the Brutus.zip File "hacktheblue".  <br/>
-<img src="https://i.imgur.com/qoiWqLQ.png" height="80%" width="80%" alt="#2"/>
-<br />
-<br />
-3) Downloading WSL & Installing a Linux Distrubition (I Used Ubuntu)  <br/>
-<img src="https://i.imgur.com/tTILjoh.png" height="80%" width="80%" alt="#3"/>
-<br />
-<br />
-4) Opening the Brutus Folder with the Linux Shell you Downloaded.  <br/>
-<img src="https://i.imgur.com/0FtBLzQ.png" height="80%" width="80%" alt="#4"/>
-<br />
-
-
 ________________________________________________________________________________________________________
-<h2>Step 2: Investigating The Brutus auth.log File.</h2>
+<h2>Step 2: Setting Up The Logical Topology in Cisco Packet Tracer</h2>
 
  <p align="center">
-1) Since this scenario is of a bruteforce attack, I will use some keywords such as "accepted" , "failed" , and "failed password" using the grep command to filter through the auth.log and see information regarding the successful/unsuccessful attempts of logging into the compromised server which its ip is 172.31.35.28. <br/> 
-<img src="https://i.imgur.com/RXVvWJO.png" height="80%" width="80%" alt="#5"/>
+1) I created 2 major VLAN Areas to represent the two different buildings I am using for this project which is the AST and Enrollment Services Center. Within these two buildings, I planned on creating 3 different VLANs for each to easily separate and manage it corresponding to their department.<br/> 
+<img src="https://i.imgur.com/TNpFzIL.png" height="80%" width="80%" alt="#5"/>
 <br />
-<img src="https://i.imgur.com/VPUedwC.png" height="80%" width="80%" alt="#6"/>
+2) After I created the different VLAN Areas, I used 2 endpoint devices (PCs and Printer) for each VLAN, and placed a main switch within each building that connects to the main router for this campus Valle Verde.
+<img src="https://i.imgur.com/E83GUo0.png" height="80%" width="80%" alt="#7"/>
 <br />
-<img src="https://i.imgur.com/L4zeTqT.png" height="80%" width="80%" alt="#7"/>
 <br />
-2) From looking at this image, I had saw a lot of logins from a another account and to the root (admin) account from a wierd IP address, so I had decided to use the curl command with the wepsite ipinfo.io to search the details of this IP to find any suspicious information.
+________________________________________________________________________________________________________
+<h2>Step 3: Securing & Configuring the Switch</h2>
+
+<p align="center">
+1) Implementing basic configurations for AST-Switch including renaming the switch, and security hardening such as passwords, console security, etc. <br/>
+<img src="https://i.imgur.com/viawBW1.png" height="80%" width="80%" alt="#8"/>
+<br />
+<p align="center">
+2) Creating the VLANs within the AST-Switch. <br/>
+<img src="https://i.imgur.com/pED3qRX.png" height="80%" width="80%" alt="#8"/>
+<br />
+<p align="center">
+3) Repeat #1 & #2 for the ESC-Switch. <br/>
+<img src="https://i.imgur.com/OYYR0wT.png" height="80%" width="80%" alt="#8"/>
+<br />
+________________________________________________________________________________________________________
+<h2>Step 4: Connecting the Devices & Labeling Ports</h2>
+
+<p align="center">
+1) Start connecting the devices to their respected VLANs from the VLAN Plan from Step #1 and labeling the connected ports.<br/>
+<img src="https://i.imgur.com/GPoVAmb.png" height="80%" width="80%" alt="#10"/>
+<br />
+________________________________________________________________________________________________________
+<h2>Step 5: Configuring the Switch's Ports with their VLANs</h2>
+
+<p align="center">
+1) Start configuring the port interfaces with their respected VLAN planning from Step #1 with f0/1 interface to be trunk ports for the router.<br/>
+<img src="https://i.imgur.com/1Nl0UO1.png" height="80%" width="80%" alt="#10"/>
+<img src="https://i.imgur.com/ShHbfHD.png" height="80%" width="80%" alt="#10"/>
+<br />
+________________________________________________________________________________________________________
+<h2>Step 6: Configuring the Router's Interfaces and creating sub-interfaces</h2>
+
+<p align="center">
+1) Enabling the G0/0 and G0/1 interfaces, and configuring the router's sub-interfaces with their corresponding VLAN. using the encapsulation dot1Q <vlan-id> command which tells the router which VLAN ID to associate with that sub-interface for routing between them. <br/>
+<img src="https://i.imgur.com/61vChiu.png" height="80%" width="80%" alt="#10"/>
+<br/> - Configuring AST Building VLAN
+<img src="https://i.imgur.com/JOUSIDw.png" height="80%" width="80%" alt="#10"/>
+<br/> - Configuring ESC Building VLAN
+<img src="https://i.imgur.com/K2JyzdI.png" height="80%" width="80%" alt="#10"/>
+<br />
+________________________________________________________________________________________________________
+<h2>Step 7: Setting up DHCP for the VLANs</h2>
+
+<p align="center">
+1) Excluding the first 10 ip addresses for each network from DHCP as a best practice so we are able to reserve them for other things such as gateways, SVIs, etc, later on. <br/>
+<img src="https://i.imgur.com/McOKYWL.png" height="80%" width="80%" alt="#10"/>
+<br/> - Creating the DHCP pool for each VLAN in the AST Building and assigning their network and default router.
+<img src="https://i.imgur.com/J42hVMb.png" height="80%" width="80%" alt="#10"/>
+<br/> - Creating the DHCP pool for each VLAN in the ESC Building and assigning their network and default router.
+<img src="https://i.imgur.com/O0UAAJh.png" height="80%" width="80%" alt="#10"/>
 <br />
 
 ________________________________________________________________________________________________________
-<h2>Step 3: Investigating The Login Attempts From A Suspicious IP Address.</h2>
+<h2>Step 8: Verifying DHCP & Connectivity</h2>
 
 <p align="center">
-Checking The Successful Logins From The 65.2.161.68 IP Address:  <br/>
-<img src="https://i.imgur.com/ZFEvWvn.png" height="80%" width="80%" alt="#8"/>
-<br />
-
-<p align="center">
-Looking At Logs Regarding The Root Account:  <br/>
-- <b>I had used the grep command with the keyword "root" to see all the logs pertaining to the root user and had saw a successful session for the root user which had came from the suspicious IP address 65.2.161.68.</b>
-<br />
-<img src="https://i.imgur.com/TjvlaSj.png" height="80%" width="80%" alt="#9"/>
-<br />
-________________________________________________________________________________________________________
-<h2>Step 4: Investigating The Suspicious User "cyberjunkie"</h2>
-
-<p align="center">
-Suspicious Sudo Session Created By cyberjunkie:  <br/>
-- <b>After looking at few more logs, I had came across a suspicious sudo session created by an unknown user named "cyberjunkie" which had downloaded a script to the server and questioned how did this user be able to run the "sudo" command?</b><br/>
-<img src="https://i.imgur.com/v2wBSRY.png" height="80%" width="80%" alt="#10"/>
-<br />
-
- <p align="center">
-Investigating All Logs Regarding cyberjunkie: <br/>
-- <b>After finding this suspicious user "cyberjunkie", I had utilized the grep command with the keyword "cyberjunkie" to see all commands that were linked with this user and had saw the attacker add one of the backdoor accounts he placed to the sudo group and was linked to the same suspicious IP address 65.2.161.68.</b>
-<img src="https://i.imgur.com/bJK6ESq.png" height="80%" width="80%" alt="#11"/>
-<br />
-________________________________________________________________________________________________________
-<h2>Step 5: Answering The Rest Of The Answers In HackTheBox</h2>
-
-<p align="center">
-Identifying The First Timestamp That The Attacker Logged Into The Server:  <br/>
-- <b>Since the timestamps were found in the wtmp artifact and using the "cat" command would make the text unreadable, I had used the "utmpdump" command to view the contents of the file in a human-readable raw text form.</b>
-<img src="https://i.imgur.com/42HwpBw.png" height="80%" width="80%" alt="#12"/>
-<br />
-
-<p align="center">
-Identifying The SSH Login Assigned To The Attacker's Session:  <br/>
-- <b>I had utilized the "grep" command again with the two key words "session" and "root" to see all sessions made to the root user, and had saw the SSH Login Session 37 matching the same timestamp March 6 06:32:44 from when the attacker first logged into the server.</b>
-<img src="https://i.imgur.com/RAkv3RP.png" height="80%" width="80%" alt="#13"/>
-<br />
-
-<p align="center">
-Determining the MITRE ATT&CK sub-technique ID used for persistence by creating a new account:  <br/>
-- <b>Using the https://attack.mitre.org/ website, I had searched up "Create Account: Local Account" and had found the sub-technique ID used for this attack to be T1136.001.</b>
-<img src="https://i.imgur.com/DOMGc4x.png" height="80%" width="80%" alt="#14"/>
-<br />
-
-<p align="center">
-Identifying The End Of The Attacker's First SSH Session:  <br/>
-- <b>Looking at the same timestamp from the Attacker's first session, we can see that it had ended a few minutes after which was on March 6 06:37:24</b><br />
-<img src="https://i.imgur.com/McuTf7A.png" height="80%" width="80%" alt="#15"/>
+1) First, I tested DHCP within the PCs throughout the different VLANs and verified that it had assigned the IP Addresses correctly. <br/>
+<img src="https://i.imgur.com/4S0kxAg.png" height="80%" width="80%" alt="#10"/><br/>
+2) Verifying connectivity between the different VLANs by having PC0 (Student VLAN) pinging PC4 (Financial Aid VLAN).
+<img src="https://i.imgur.com/F2fUJcY.png" height="80%" width="80%" alt="#10"/>
 <br />
 ________________________________________________________________________________________________________
 <h2>OVERVIEW:</h2>
 <p align="center">
-Sherlock Brutus Completion:  <br/>
+Basic Router-on-a-Stick VLAN for EPCC:  <br/>
 <p align="left">
-<b> 1) Completed my first Hack The Box Sherlock lab focused on investigating an SSH brute-force attack.</b>
+<b> 1) Designed a two-building campus topology | Created multiple VLANs | Assigned switch ports to the correct VLANs</b>
 <p align="left">
-<b> 2) Brushed up on core Linux command-line skills and learned new commands such as utmpdump to convert system login logs into human-readable text.</b>
+<b> 2) Configured my first Router-on-a-Stick | Created router subinterfaces using encapsulation dot1Q | Assigned IP Addresses to each VLAN gateway.</b>
 <p align="left">
-<b> 3) Set up WSL with Ubuntu on a Windows 11 laptop, allowing Linux-based analysis without using a virtual machine.</b>
+<b> 3) Configured DHCP pools on the router for each VLAN | Set default gateways and DNS settings | Used ip dhcp excluded-address to reserve static IPs.</b>
 <p align="left">
-<b> 4) Gained hands-on experience analyzing authentication logs (auth.log, wtmp) and filtering logs to identify suspicious activity.</b>
-<p align="center">
-<img src="https://i.imgur.com/nminqwp.png" height="80%" width="80%" alt="#16"/>
+<b> 4) Refreshed and practiced common Cisco IOS Commands </b>
 <br />
 
 
