@@ -1,4 +1,4 @@
-<h1>"Basic Router-on-a-Stick VLAN EPCC Lab</h1>
+<h1>Basic Router-on-a-Stick VLAN EPCC Lab</h1>
 
 <h2>Description</h2>
 This project is a simulated college campus network (EPCC) I built in Cisco Packet Tracer. This design helped me practice and strengthen my foundational networking skills. This lab represents two buildings within the same campus, each containing multiple VLANs to separate different types of users/departments.
